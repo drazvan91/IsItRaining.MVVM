@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace IsItRaining.Services.Models
+﻿namespace IsItRaining.Services.Models
 {
     public class GpsLocation
     {
+        public GpsLocation()
+        {
+        }
+
+        public GpsLocation(double latitude, double longitude)
+        {
+            Latitude = latitude;
+            Longitude = longitude;
+        }
+
         public double Latitude { get; set; }
         public double Longitude { get; set; }
     }
