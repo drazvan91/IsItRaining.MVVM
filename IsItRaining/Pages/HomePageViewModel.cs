@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace IsItRaining.Pages
 {
-    public class HomePageViewModel: Screen
+    public class HomePageViewModel : Screen
     {
         private const int NUMBER_OF_DAYS_TO_DISPLAY = 5;
         private readonly IGpsLocatorService _gpsLocatorService;
@@ -105,7 +105,7 @@ namespace IsItRaining.Pages
                 days.Add(new DayViewModel()
                 {
                     Day = _firstDay.AddDays(i),
-                    MaxTemperature = null
+                    MaxTemperature = null,
                 });
             }
 
@@ -116,14 +116,14 @@ namespace IsItRaining.Pages
         {
             var weatherResponse = await this._weatherService.GetWeatherAsync(
                 _firstDay,
-                NUMBER_OF_DAYS_TO_DISPLAY, 
-                _gpsLocation.Latitude, 
+                NUMBER_OF_DAYS_TO_DISPLAY,
+                _gpsLocation.Latitude,
                 _gpsLocation.Longitude);
-            
-            foreach(var day in this.Days)
+
+            foreach (var day in this.Days)
             {
                 var forecast = weatherResponse.Days.FirstOrDefault(d => d.Date == day.Day);
-                if(forecast == null)
+                if (forecast == null)
                 {
                     day.MaxTemperature = null;
                     day.MinTemperature = null;

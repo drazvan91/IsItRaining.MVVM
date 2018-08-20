@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace IsItRaining.Services.Models
 {
     public class WeatherResponse
     {
-        public List<WeatherDay> Days { get; set; } 
+        public List<WeatherDay> Days { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace IsItRaining.Services.Mocks
             return Task.FromResult(new GpsLocation()
             {
                 Latitude = 46.76667,
-                Longitude = 23.6
+                Longitude = 23.6,
             });
         }
     }

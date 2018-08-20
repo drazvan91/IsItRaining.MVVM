@@ -1,49 +1,47 @@
-﻿using OpenWeatherMap.Api;
+﻿using IsItRaining.Services.Models;
+using OpenWeatherMap.Api;
+using OpenWeatherMap.Api.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using IsItRaining.Services.Models;
-using OpenWeatherMap.Api.Dtos;
 
 namespace IsItRaining.Services
 {
     public class OpenWeatherMapService : IWeatherService
     {
-        private OpenWeatherMapClient client;
+        private readonly OpenWeatherMapClient _client;
+        private readonly Random _random = new Random();
 
         public OpenWeatherMapService()
         {
-            this.client = new OpenWeatherMapClient("f426d5672979d3151d56d51c4fc93245");
+            // todo: would be nice to move the API KEY in a configuration service somewhere
+            this._client = new OpenWeatherMapClient("f426d5672979d3151d56d51c4fc93245");
         }
 
         public async Task<WeatherResponse> GetWeatherAsync(DateTime startDate, int numberOfDays, double latitude, double longitude)
         {
-            var response = await client.Get5DaysForecastAsync(latitude, longitude);
+            var response = await _client.Get5DaysForecastAsync(latitude, longitude);
 
             var dailyForcast = MapForecast(startDate, numberOfDays, response).ToList();
             return new WeatherResponse()
             {
-                Days = dailyForcast
+                Days = dailyForcast,
             };
         }
 
-        Random random = new Random();
-
         private IEnumerable<WeatherDay> MapForecast(DateTime startDate, int numberOfDays, Get5DaysForecastResponse response)
         {
-
             for (int i = 0; i < numberOfDays; i++)
             {
-                var unixStart =(Int32)(startDate.AddDays(i).ToUniversalTime().Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-                var unixEnd =(Int32)(startDate.AddDays(i+1).ToUniversalTime().Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+                var unixStart = GetUnixTime(startDate.AddDays(i));
+                var unixEnd = GetUnixTime(startDate.AddDays(i + 1));
                 var forecastItems = response.List.Where(item => item.UnixDate >= unixStart && item.UnixDate < unixEnd);
 
                 var maxTemperatureItem = forecastItems.OrderByDescending(item => item.Main.MaxTemperature).FirstOrDefault();
                 var minTemperatureItem = forecastItems.OrderBy(item => item.Main.MinTemperature).FirstOrDefault();
 
-                if(maxTemperatureItem != null)
+                if (maxTemperatureItem != null)
                 {
                     yield return new WeatherDay()
                     {
@@ -51,7 +49,7 @@ namespace IsItRaining.Services
                         MaxTemperature = ToCelsius(maxTemperatureItem.Main.MaxTemperature),
                         MinTemperature = ToCelsius(minTemperatureItem.Main.MinTemperature),
                         Description = maxTemperatureItem.Weather.FirstOrDefault()?.Description,
-                        Image = maxTemperatureItem.Weather.FirstOrDefault()?.Icon
+                        Image = maxTemperatureItem.Weather.FirstOrDefault()?.Icon,
                     };
                 }
                 else
@@ -65,6 +63,11 @@ namespace IsItRaining.Services
                     };*/
                 }
             }
+        }
+
+        private int GetUnixTime(DateTime date)
+        {
+            return (int)date.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
         }
 
         private double ToCelsius(double value)

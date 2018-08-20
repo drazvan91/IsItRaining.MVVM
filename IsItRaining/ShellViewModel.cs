@@ -12,7 +12,5 @@ namespace IsItRaining
 
             ActivateItem(homePageVm);
         }
-        
-
     }
 }

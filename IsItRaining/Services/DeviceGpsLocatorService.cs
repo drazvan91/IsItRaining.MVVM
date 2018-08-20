@@ -2,15 +2,14 @@
 using IsItRaining.Services.Models;
 using System.Device.Location;
 using System.Threading.Tasks;
-using System;
 
 namespace IsItRaining.Services
 {
     public class DeviceGpsLocatorService : IGpsLocatorService
     {
-        TaskCompletionSource<GpsLocation> _gpsLocationCompletionSource;
-        TaskCompletionSource<string> _addressCompletionSource;
-        GeoCoordinateWatcher _watcher;
+        private readonly TaskCompletionSource<GpsLocation> _gpsLocationCompletionSource;
+        private readonly TaskCompletionSource<string> _addressCompletionSource;
+        private readonly GeoCoordinateWatcher _watcher;
 
         public DeviceGpsLocatorService()
         {
@@ -18,27 +17,25 @@ namespace IsItRaining.Services
             _addressCompletionSource = new TaskCompletionSource<string>();
 
             _watcher = new GeoCoordinateWatcher();
-            _watcher.PositionChanged += _watcher_PositionChanged;
+            _watcher.PositionChanged += watcher_PositionChanged;
             _watcher.Start(true);
         }
 
-        private void _watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
+        private void watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
-            if (e.Position.Location.IsUnknown)
+            GeoCoordinate location = e.Position.Location;
+            if (location.IsUnknown)
             {
                 _gpsLocationCompletionSource.SetException(new GpsNotFoundException());
                 _addressCompletionSource.SetException(new UnknownAddressException());
             }
             else
             {
-                var result = new GpsLocation()
-                {
-                    Latitude = e.Position.Location.Latitude,
-                    Longitude = e.Position.Location.Longitude
-                };
+                var result = new GpsLocation(location.Latitude, location.Longitude);
+
                 _gpsLocationCompletionSource.SetResult(result);
 
-                ResolveCivilAddress(e.Position.Location);
+                ResolveCivilAddress(location);
             }
 
             _watcher.Stop();

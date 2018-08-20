@@ -20,13 +20,13 @@
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBlock x:Name="Title" Grid.ColumnSpan="2" />
-            <TextBlock Text="max: " Grid.Row="1" />
+            <TextBlock x:Name="Title" FontWeight="bold" Grid.ColumnSpan="2" />
+            <TextBlock Text="max: " Grid.Row="1" Margin="0,0,10,0" />
             <TextBlock x:Name="MaxTemperatureText" Grid.Row="1" Grid.Column="1" />
             <TextBlock Text="min: " Grid.Row="2" />
             <TextBlock x:Name="MinTemperatureText" Grid.Row="2" Grid.Column="1" />
-            <TextBlock x:Name="Description" TextWrapping="Wrap" Grid.Row="3" Grid.ColumnSpan="2" />
-            <Image x:Name="ImageUrl" Grid.Row="4" />
+            <TextBlock x:Name="Description" FontStyle="Italic" TextWrapping="Wrap" Grid.Row="3" Grid.ColumnSpan="2" />
+            <Image x:Name="ImageUrl" Grid.Row="4" Grid.ColumnSpan="2" />
         </Grid>
     </Border>
 </UserControl>

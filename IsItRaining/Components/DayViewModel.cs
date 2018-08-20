@@ -3,7 +3,7 @@ using System;
 
 namespace IsItRaining.Components
 {
-    public class DayViewModel: PropertyChangedBase
+    public class DayViewModel : PropertyChangedBase
     {
         private DateTime _day;
         public DateTime Day
@@ -14,7 +14,7 @@ namespace IsItRaining.Components
             }
             set
             {
-                this._day = value;
+                _day = value;
                 NotifyOfPropertyChange(() => Day);
                 NotifyOfPropertyChange(() => Title);
             }
@@ -52,9 +52,10 @@ namespace IsItRaining.Components
         {
             get
             {
-                if (this.MaxTemperature.HasValue)
+                if (MaxTemperature.HasValue)
+                {
                     return string.Format("{0:0.0}C", MaxTemperature.Value);
-
+                }
 
                 return "NA";
             }
@@ -79,8 +80,10 @@ namespace IsItRaining.Components
         {
             get
             {
-                if (this.MinTemperature.HasValue)
+                if (MinTemperature.HasValue)
+                {
                     return string.Format("{0:0.0}C", MinTemperature.Value);
+                }
 
                 return "NA";
             }
@@ -89,19 +92,18 @@ namespace IsItRaining.Components
         private string _description;
         public string Description
         {
-            get { return _description; }
+            get => _description;
             set
             {
                 _description = value;
                 NotifyOfPropertyChange(() => Description);
-
             }
         }
 
         private string _image;
         public string Image
         {
-            get { return _image; }
+            get => _image;
             set
             {
                 _image = value;
@@ -115,9 +117,11 @@ namespace IsItRaining.Components
             get
             {
                 if (Image == null)
-                    return "";
+                {
+                    return string.Empty;
+                }
 
-                return $"http://openweathermap.org/img/w/{ Image }.png";
+                return $"http://openweathermap.org/img/w/{Image}.png";
             }
         }
     }
