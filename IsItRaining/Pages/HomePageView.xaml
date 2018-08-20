@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="IsItRaining.Pages.HomePageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IsItRaining.Pages"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="400">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="39*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="3">
+            <TextBlock Text="Your location: "></TextBlock>
+            <TextBlock x:Name="LocationText"></TextBlock>
+        </StackPanel>
+        
+        <Button x:Name="PreviousDays" Content="Previous" VerticalAlignment="Center" Width="60"  Grid.Row="1"></Button>
+        <ItemsControl x:Name="Days" Grid.Column="1" VerticalAlignment="Center" Grid.Row="1">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        <Button x:Name="NextDays" Content="Next" Grid.Column="2" VerticalAlignment="Center" Width="60" Grid.Row="1" ></Button>
+    </Grid>
+</UserControl>
