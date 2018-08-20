@@ -1,6 +1,5 @@
 ﻿using Caliburn.Micro;
 using IsItRaining.Pages;
-using IsItRaining.Services;
 
 namespace IsItRaining
 {

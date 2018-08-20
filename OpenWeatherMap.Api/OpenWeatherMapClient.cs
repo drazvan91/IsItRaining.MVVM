@@ -1,12 +1,9 @@
 ﻿using Newtonsoft.Json;
 using OpenWeatherMap.Api.Dtos;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.Caching;
+using System.Threading.Tasks;
 
 namespace OpenWeatherMap.Api
 {
